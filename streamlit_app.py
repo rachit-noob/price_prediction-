@@ -1,9 +1,10 @@
 import streamlit as st
 import joblib
+import numpy as np
 
 def load_model():
     # Load the pre-trained model
-    model = joblib.load("regmodel.pkl")
+    model = joblib.load("your_model_file.pkl")
     return model
 
 @st.cache
@@ -35,19 +36,17 @@ def main():
     B = st.text_input("B")
     LSTAT = st.text_input("LSTAT")
 
-    # Convert input values to numpy array
-    input_data = [CRIM, ZN, INDUS, CHAS, NOX, RM, Age, DIS, RAD, TAX, PTRATIO, B, LSTAT]
-    input_data = [float(i) for i in input_data]
+    # Create predict button
+    if st.button("Predict"):
+        # Convert input values to numpy array
+        input_data = [CRIM, ZN, INDUS, CHAS, NOX, RM, Age, DIS, RAD, TAX, PTRATIO, B, LSTAT]
+        input_data = [float(i) if i else 0.0 for i in input_data]  # Convert empty strings to 0.0
 
-    # Check if all inputs are provided
-    if all(input_data):
         # Make prediction
-        prediction = predict(model, input_data)
+        prediction = predict(model, np.array(input_data))
 
         # Display prediction
         st.write("Prediction:", prediction)
-    else:
-        st.write("Please provide all input values")
 
 if __name__ == "__main__":
     main()
