@@ -4,7 +4,7 @@ import numpy as np
 
 def load_model():
     # Load the pre-trained model
-    model = joblib.load("your_model_file.pkl")
+    model = joblib.load("regmodel.pkl")
     return model
 
 @st.cache
